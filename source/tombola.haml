@@ -1,0 +1,117 @@
+:ruby
+  YEAR = Time.now.year
+
+%html
+  %head
+    :scss
+      .barred {
+        text-decoration: line-through;
+      }
+      body {
+        background: rgba(255,255,255,0.4);
+        background-image: url("background.jpg");
+        height: 800px;
+        width: 1200px;
+      }
+      #title {
+        #background-color: #A00000;
+        border: none; margin: 20px;
+        border-radius: 20px;
+        font-size: 60px;
+        padding: 20px;
+        text-align: center
+      }
+      .center {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      table {
+        position: relative;
+        float: left;
+        margin-left: 10px;
+        margin-right: auto;
+        border: 3px solid black;
+        border-radius: 20px;
+        text-align: center;
+        td {
+          border: 1px dotted black;
+          width: 80px;
+          height: 60px;
+          padding-left: 5px;
+          padding-right: 5px;
+          font-size: 45px;
+        }
+      }
+      ul {
+        list-style-type: none;
+        position: relative;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        float: right;
+        font-size: 30px;
+        li {
+          padding-top: 18px;
+          padding-bottom: 18px;
+        }
+      }
+
+    :coffee
+      window.blank = ' '
+      window.barred = 'barred'
+      window.init_table = () ->
+        parent = @table.parentNode
+        parent.removeChild @table
+        @table = document.createElement 'table'
+        @table.setAttribute 'id', 'tabellone'
+        parent.insertBefore @table, @combo
+        for r in [1..9]
+          do(r) ->
+            tr = document.createElement 'tr'
+            for c in [1..10]
+              do(c) ->
+                td = document.createElement 'td'
+                n = ((r - 1) * 10 ) + c
+                td.setAttribute 'id', n
+                td.textContent = window.blank
+                td.onclick = () ->
+                  this.textContent = if (this.textContent == window.blank) then (this.id) else window.blank
+                tr.appendChild td
+            @table.appendChild tr
+
+      window.init_combo = () ->
+        items = @combo.getElementsByTagName 'li'
+        for i in items
+          do(i) ->
+            i.classList.remove(window.barred)
+
+      window.onload = () ->
+        @table = document.getElementById 'tabellone'
+        @combo = document.getElementById 'combo'
+        init_table()
+        title = document.getElementById 'title'
+        title.onclick = () ->
+          if (confirm('Pulire Tabellone?'))
+            window.init_table()
+            window.init_combo()
+        combo_list = @combo.getElementsByTagName('li')
+        for c in combo_list
+          do(c) ->
+            c.onclick = () ->
+              if this.classList.contains(window.barred)
+                this.classList.remove(window.barred)
+              else
+                this.classList.add(window.barred)
+              
+    %title Tombolata #{ENV['YEAR']}
+  %body
+    .center
+      %h1#title Tombolata #{YEAR}
+      %div
+        %table#tabellone
+        %ul#combo
+          %li Ambo
+          %li Terno
+          %li Quaterna
+          %li Cinquina
+          %li Tombola

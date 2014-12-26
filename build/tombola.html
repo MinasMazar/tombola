@@ -1,0 +1,153 @@
+<html>
+  <head>
+    <style>
+      .barred {
+        text-decoration: line-through; }
+      
+      body {
+        background: rgba(255, 255, 255, 0.4);
+        background-image: url("background.jpg");
+        height: 800px;
+        width: 1200px; }
+      
+      #title {
+        #background-color: #A00000;
+        border: none;
+        margin: 20px;
+        border-radius: 20px;
+        font-size: 60px;
+        padding: 20px;
+        text-align: center; }
+      
+      .center {
+        margin-left: auto;
+        margin-right: auto; }
+      
+      table {
+        position: relative;
+        float: left;
+        margin-left: 10px;
+        margin-right: auto;
+        border: 3px solid black;
+        border-radius: 20px;
+        text-align: center; }
+        table td {
+          border: 1px dotted black;
+          width: 80px;
+          height: 60px;
+          padding-left: 5px;
+          padding-right: 5px;
+          font-size: 45px; }
+      
+      ul {
+        list-style-type: none;
+        position: relative;
+        margin-right: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        float: right;
+        font-size: 30px; }
+        ul li {
+          padding-top: 18px;
+          padding-bottom: 18px; }
+    </style>
+    <script>
+      (function() {
+        window.blank = ' ';
+      
+        window.barred = 'barred';
+      
+        window.init_table = function() {
+          var parent, r, _i, _results;
+          parent = this.table.parentNode;
+          parent.removeChild(this.table);
+          this.table = document.createElement('table');
+          this.table.setAttribute('id', 'tabellone');
+          parent.insertBefore(this.table, this.combo);
+          _results = [];
+          for (r = _i = 1; _i <= 9; r = ++_i) {
+            _results.push((function(r) {
+              var c, tr, _fn, _j;
+              tr = document.createElement('tr');
+              _fn = function(c) {
+                var n, td;
+                td = document.createElement('td');
+                n = ((r - 1) * 10) + c;
+                td.setAttribute('id', n);
+                td.textContent = window.blank;
+                td.onclick = function() {
+                  return this.textContent = this.textContent === window.blank ? this.id : window.blank;
+                };
+                return tr.appendChild(td);
+              };
+              for (c = _j = 1; _j <= 10; c = ++_j) {
+                _fn(c);
+              }
+              return this.table.appendChild(tr);
+            })(r));
+          }
+          return _results;
+        };
+      
+        window.init_combo = function() {
+          var i, items, _i, _len, _results;
+          items = this.combo.getElementsByTagName('li');
+          _results = [];
+          for (_i = 0, _len = items.length; _i < _len; _i++) {
+            i = items[_i];
+            _results.push((function(i) {
+              return i.classList.remove(window.barred);
+            })(i));
+          }
+          return _results;
+        };
+      
+        window.onload = function() {
+          var c, combo_list, title, _i, _len, _results;
+          this.table = document.getElementById('tabellone');
+          this.combo = document.getElementById('combo');
+          init_table();
+          title = document.getElementById('title');
+          title.onclick = function() {
+            if (confirm('Pulire Tabellone?')) {
+              window.init_table();
+              return window.init_combo();
+            }
+          };
+          combo_list = this.combo.getElementsByTagName('li');
+          _results = [];
+          for (_i = 0, _len = combo_list.length; _i < _len; _i++) {
+            c = combo_list[_i];
+            _results.push((function(c) {
+              return c.onclick = function() {
+                if (this.classList.contains(window.barred)) {
+                  return this.classList.remove(window.barred);
+                } else {
+                  return this.classList.add(window.barred);
+                }
+              };
+            })(c));
+          }
+          return _results;
+        };
+      
+      }).call(this);
+    </script>
+    <title>Tombolata</title>
+  </head>
+  <body>
+    <div class='center'>
+      <h1 id='title'>Tombolata 2014</h1>
+      <div>
+        <table id='tabellone'></table>
+        <ul id='combo'>
+          <li>Ambo</li>
+          <li>Terno</li>
+          <li>Quaterna</li>
+          <li>Cinquina</li>
+          <li>Tombola</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
